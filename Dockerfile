@@ -5,6 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ="America/Los_Angeles"
 ENV CUPSADMIN=admin
 ENV CUPSPASSWORD=password
+ENV CANONPPD=linux-UFRII-drv-v600-us-02.tar.gz
 
 
 LABEL org.opencontainers.image.source="https://github.com/anujdatar/cups-docker"
@@ -21,6 +22,7 @@ RUN apt-get update -qq  && apt-get upgrade -qqy \
     usbutils \
     cups \
     cups-filters \
+    cups-bsd \
     printer-driver-all \
     printer-driver-cups-pdf \
     printer-driver-foo2zjs \
@@ -29,9 +31,19 @@ RUN apt-get update -qq  && apt-get upgrade -qqy \
     hpijs-ppds \
     hp-ppd \
     hplip \
+    libgtk-3-0 \
     avahi-daemon \
-    && apt-get clean \
+    && apt-get autoremove -y \
+    && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
+
+# Install Canon PPD
+RUN mkdir -p /tmp/CanonPPD \
+    && wget --quiet -O /tmp/${CANONPPD} https://gdlp01.c-wss.com/gds/6/0100009236/20/${CANONPPD} \
+    && tar -xvf /tmp/${CANONPPD} -C /tmp/CanonPPD \
+    && ls -lRa /tmp/CanonPPD/linux-UFRII-drv-v600-us \
+    && dpkg -i /tmp/CanonPPD/linux-UFRII-drv-v600-us/x64/Debian/cnrdrvcups-ufr2-us_6.00-1.02_amd64.deb \
+    && rm -rf /tmp/${CANONPPD} /tmp/CanonPPD
 
 EXPOSE 631
 EXPOSE 5353/udp
