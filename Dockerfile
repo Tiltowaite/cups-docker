@@ -1,10 +1,10 @@
 FROM debian:stable-slim
 
 # ENV variables
-ENV DEBIAN_FRONTEND noninteractive
-ENV TZ "America/New_York"
-ENV CUPSADMIN admin
-ENV CUPSPASSWORD password
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ="America/Los_Angeles"
+ENV CUPSADMIN=admin
+ENV CUPSPASSWORD=password
 
 
 LABEL org.opencontainers.image.source="https://github.com/anujdatar/cups-docker"
