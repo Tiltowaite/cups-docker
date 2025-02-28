@@ -1,0 +1,25 @@
+services:
+    cups:
+        build:
+          context: .
+          dockerfile: Dockerfile
+        container_name: cups
+        restart: unless-stopped
+        ports:
+            - "631:631"
+            - "5353:5353/udp"
+        devices:
+            - /dev/bus/usb:/dev/bus/usb
+        environment:
+            - CUPSADMIN=${ADMIN_NAME}
+            - CUPSPASSWORD=${ADMIN_PASSWORD}
+            - TZ="America/Los_Angeles"
+        volumes:
+          - services:/services
+          - config:/config
+        #entrypoint: ["/bin/bash"]
+
+volumes:
+    services: {}
+    config: {}
+
