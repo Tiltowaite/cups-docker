@@ -5,21 +5,25 @@ services:
           dockerfile: Dockerfile
         container_name: cups
         restart: unless-stopped
-        ports:
-            - "631:631"
-            - "5353:5353/udp"
+        # 
+        network_mode: host
+#        ports:
+#            - "631:631"
+#            - "5353:5353/udp"
         devices:
             - /dev/bus/usb:/dev/bus/usb
         environment:
             - CUPSADMIN=${ADMIN_NAME}
             - CUPSPASSWORD=${ADMIN_PASSWORD}
             - TZ="America/Los_Angeles"
+            - CANON7700=${CANON7700}
+
         volumes:
-          - services:/services
-          - config:/config
-        #entrypoint: ["/bin/bash"]
+          - printers:/var/spool/cups
+          - logs:/var/log/cups
+          - pdf_output:/var/spool/cups-pdf
 
 volumes:
-    services: {}
-    config: {}
-
+    logs: {}
+    printers: {}
+    pdf_output: {}

@@ -1,0 +1,24 @@
+<?xml version="1.0" standalone='no'?>
+<!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+<service-group>
+  <name replace-wildcards="yes">%h CanonMF4320</name>
+  <service>
+    <type>_ipp._tcp</type>
+    <subtype>_universal._sub._ipp._tcp</subtype>
+    <port>631</port>
+
+    <!-- REQUIRED AirPrint TXT records -->
+    <txt-record>txtvers=1</txt-record>
+    <txt-record>qtotal=1</txt-record>
+    <txt-record>rp=printers/CanonMF4320</txt-record>
+    <txt-record>ty=Canon MF4320</txt-record>
+    <txt-record>product=(Canon MF4320)</txt-record>
+    <txt-record>note=Closet Printer</txt-record>
+    <txt-record>adminurl=http://cups.lan/printers/CanonMF4320</txt-record>
+
+    <!-- Capabilities -->
+    <txt-record>Color=F</txt-record>
+    <txt-record>Duplex=T</txt-record>
+    <txt-record>URF=none</txt-record>
+  </service>
+</service-group>
