@@ -51,6 +51,7 @@ if [ -n "$CANON7700" ]; then
  lpadmin -p CanonMG7700_bjnp -o sides=one-sided
  lpadmin -p CanonMG7700_bjnp -o print-color-mode=color
  lpadmin -p CanonMG7700_bjnp -o Resolution=600dpi
+ lpadmin -p CanonMG7700_bjnp -o printer-is-shared=true
 
  cupsenable CanonMG7700_bjnp
  cupsaccept CanonMG7700_bjnp
@@ -66,5 +67,7 @@ lpadmin -p Server_PDF_Print -o media=Letter
 lpadmin -p Server_PDF_Print -o sides=one-sided
 lpadmin -p Server_PDF_Print -o print-color-mode=color
 lpadmin -p Server_PDF_Print -o Resolution=600dpi
+lpadmin -p Server_PDF_Print -o printer-is-shared=true
+
 cupsenable Server_PDF_Print
 cupsaccept Server_PDF_Print
