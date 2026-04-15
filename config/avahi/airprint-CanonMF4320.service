@@ -19,6 +19,8 @@
     <!-- Capabilities -->
     <txt-record>Color=F</txt-record>
     <txt-record>Duplex=T</txt-record>
-    <txt-record>URF=none</txt-record>
+    <txt-record>URF=V1.3 W8-16-32-48-256 DM1 CP1 RS300 Gray8</txt-record>
+    <txt-record>PaperMax=legal</txt-record>
+
   </service>
 </service-group>

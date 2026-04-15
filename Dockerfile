@@ -8,11 +8,11 @@ ENV CUPSPASSWORD=password
 
 LABEL org.opencontainers.image.description="CUPS Printer Server"
 
-
 # Install dependencies
 RUN apt-get update -qq  && apt-get upgrade -qqy \
     && apt-get install -qqy \
     usbutils \
+    locale \
     cups \
     cups-filters \
     cups-filters-core-drivers \
@@ -32,6 +32,12 @@ RUN apt-get update -qq  && apt-get upgrade -qqy \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 
+RUN sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
+ && locale-gen en_US.UTF-8 \
+ && update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
+
+ENV LANG=en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8
 
 # Create the target folder inside the image
 RUN mkdir -p /drivers

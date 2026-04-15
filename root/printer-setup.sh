@@ -22,6 +22,10 @@ lpadmin -p CanonMF4320 -o printer-is-shared=true
 cupsenable CanonMF4320
 cupsaccept CanonMF4320
 
+lpoptions -p CanonMF4320 -l
+lpoptions -p CanonMF4320
+
+
 # Add Canon MG7700 (Network)
 #if [ -n "$CANON7700" ]; then
 #   lpadmin -p CanonMG7700_ipp \
@@ -55,6 +59,9 @@ if [ -n "$CANON7700" ]; then
 
  cupsenable CanonMG7700_bjnp
  cupsaccept CanonMG7700_bjnp
+
+ lpoptions -p CanonMG7700_bjnp -l
+ lpoptions -p CanonMG7700_bjnp
 fi
 
 lpadmin -p Server_PDF_Print \
@@ -71,3 +78,6 @@ lpadmin -p Server_PDF_Print -o printer-is-shared=true
 
 cupsenable Server_PDF_Print
 cupsaccept Server_PDF_Print
+
+lpoptions -p Server_PDF_Print -l
+lpoptions -p Server_PDF_Print
