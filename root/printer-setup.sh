@@ -9,7 +9,7 @@ done
 lpadmin -p CanonMF4320 \
   -E \
   -v "usb://Canon/MF4320-4350%20(UFRII%20LT)?serial=SJ3013833704G&interface=1" \
-  -m CNRCUPSMF4350ZS.ppd \
+  -P /etc/cups/ppd/CanonMF4320.ppd \
   -L "Upstairs" \
   -D "Canon MF4320"
 

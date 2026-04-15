@@ -40,15 +40,10 @@ RUN mkdir -p /drivers
 COPY ./drivers /drivers
 
 
-# Install Canon UFRII driver cleanly
-RUN mkdir -p /tmp/canon \
-  && tar -xzf /drivers/linux-UFRII-drv-v600-us-02.tar.gz \
-       --strip-components=3 \
-       -C /tmp/canon \
-       linux-UFRII-drv-v600-us/x64/Debian/cnrdrvcups-ufr2-us_6.00-1.02_amd64.deb \
-  && dpkg -i /tmp/canon/cnrdrvcups-ufr2-us_6.00-1.02_amd64.deb \
-  && rm -rf /tmp/canon
-
+# Install Canon UFRII driver
+COPY ppd/CanonMF4320.ppd /etc/cups/ppd/CanonMF4320.ppd
+RUN chown root:lp /etc/cups/ppd/CanonMF4320.ppd \
+ && chmod 644 /etc/cups/ppd/CanonMF4320.ppd
 
 RUN mkdir -p /tmp/canon \
     && tar -xzf /drivers/cnijfilter2-5.20-1-deb.tar.gz \
