@@ -12,7 +12,7 @@ LABEL org.opencontainers.image.description="CUPS Printer Server"
 RUN apt-get update -qq  && apt-get upgrade -qqy \
     && apt-get install -qqy \
     usbutils \
-    locale \
+    locales \
     cups \
     cups-filters \
     cups-filters-core-drivers \
@@ -45,20 +45,11 @@ RUN mkdir -p /drivers
 # Copy the local drivers folder into the image
 COPY ./drivers /drivers
 
-
 # Install Canon UFRII driver
-COPY ppd/CanonMF4320.ppd /etc/cups/ppd/CanonMF4320.ppd
-RUN chown root:lp /etc/cups/ppd/CanonMF4320.ppd \
- && chmod 644 /etc/cups/ppd/CanonMF4320.ppd
 
-RUN mkdir -p /tmp/canon \
-    && tar -xzf /drivers/cnijfilter2-5.20-1-deb.tar.gz \
-         --strip-components=2 \
-         -C /tmp/canon \
-         cnijfilter2-5.20-1-deb/packages/cnijfilter2_5.20-1_amd64.deb \
-    && dpkg -i /tmp/canon/cnijfilter2_5.20-1_amd64.deb \
-    && rm -rf /tmp/canon
+RUN dpkg -i /drivers/cnrdrvcups-ufr2-us_6.00-1.02_amd64.deb
 
+RUN dpkg -i /drivers/cnijfilter2_5.20-1_amd64.deb
 
 #RUN pip install --break-system-packages pycups
 

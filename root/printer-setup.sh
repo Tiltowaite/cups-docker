@@ -9,9 +9,10 @@ done
 lpadmin -p CanonMF4320 \
   -E \
   -v "usb://Canon/MF4320-4350%20(UFRII%20LT)?serial=SJ3013833704G&interface=1" \
-  -P /etc/cups/ppd/CanonMF4320.ppd \
+  -P /usr/share/cups/model/CNRCUPSMF4350ZS.ppd \
   -L "Upstairs" \
   -D "Canon MF4320"
+
 
 lpadmin -p CanonMF4320 -o media=Letter
 lpadmin -p CanonMF4320 -o sides=one-sided
@@ -68,6 +69,7 @@ lpadmin -p Server_PDF_Print \
   -E \
   -v cups-pdf:/ \
   -P /usr/share/ppd/cupsfilters/Generic-PDF_Printer-PDF.ppd \
+  -L "Virtual" \
   -D "PDF Printer"
 
 lpadmin -p Server_PDF_Print -o media=Letter
