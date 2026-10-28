@@ -16,7 +16,6 @@ services:
             - CUPSADMIN=${ADMIN_NAME}
             - CUPSPASSWORD=${ADMIN_PASSWORD}
             - TZ="America/Los_Angeles"
-            - CANON7700=${CANON7700}
 
         volumes:
           - printers:/var/spool/cups
