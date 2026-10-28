@@ -1,55 +1,69 @@
 FROM debian:stable-slim
 
 # ENV variables
-ENV DEBIAN_FRONTEND noninteractive
-ENV TZ "America/New_York"
-ENV CUPSADMIN admin
-ENV CUPSPASSWORD password
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ="America/Los_Angeles"
+ENV CUPSADMIN=admin
+ENV CUPSPASSWORD=password
 
-
-LABEL org.opencontainers.image.source="https://github.com/anujdatar/cups-docker"
 LABEL org.opencontainers.image.description="CUPS Printer Server"
-LABEL org.opencontainers.image.author="Anuj Datar <anuj.datar@gmail.com>"
-LABEL org.opencontainers.image.url="https://github.com/anujdatar/cups-docker/blob/main/README.md"
-LABEL org.opencontainers.image.licenses=MIT
-
 
 # Install dependencies
 RUN apt-get update -qq  && apt-get upgrade -qqy \
     && apt-get install -qqy \
-    apt-utils \
     usbutils \
+    locales \
     cups \
     cups-filters \
-    printer-driver-all \
+    cups-filters-core-drivers \
+    cups-bsd \
+    cups-backend-bjnp \
+    libcupsimage2 \
+    libjpeg62-turbo \
+    libpng16-16 \
     printer-driver-cups-pdf \
-    printer-driver-foo2zjs \
-    foomatic-db-compressed-ppds \
-    openprinting-ppds \
-    hpijs-ppds \
-    hp-ppd \
-    hplip \
+    printer-driver-gutenprint \
+    lsb-release \
+    libgtk-3-0 \
+    dbus \
     avahi-daemon \
-    && apt-get clean \
+    avahi-utils \
+    && apt-get autoremove -y \
+    && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
+
+RUN sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
+ && locale-gen en_US.UTF-8 \
+ && update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
+
+ENV LANG=en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8
+
+# Create the target folder inside the image
+RUN mkdir -p /drivers
+
+# Copy the local drivers folder into the image
+COPY ./drivers /drivers
+
+# Install Canon UFRII driver
+
+RUN dpkg -i /drivers/cnrdrvcups-ufr2-us_6.00-1.02_amd64.deb
+
+RUN dpkg -i /drivers/epson-inkjet-printer-escpr2_1.2.44-1_amd64.deb
+
+#RUN pip install --break-system-packages pycups
 
 EXPOSE 631
 EXPOSE 5353/udp
 
-# Baked-in config file changes
-RUN sed -i 's/Listen localhost:631/Listen 0.0.0.0:631/' /etc/cups/cupsd.conf && \
-    sed -i 's/Browsing Off/Browsing On/' /etc/cups/cupsd.conf && \
-    sed -i 's/<Location \/>/<Location \/>\n  Allow All/' /etc/cups/cupsd.conf && \
-    sed -i 's/<Location \/admin>/<Location \/admin>\n  Allow All\n  Require user @SYSTEM/' /etc/cups/cupsd.conf && \
-    sed -i 's/<Location \/admin\/conf>/<Location \/admin\/conf>\n  Allow All/' /etc/cups/cupsd.conf && \
-    echo "ServerAlias *" >> /etc/cups/cupsd.conf && \
-    echo "DefaultEncryption Never" >> /etc/cups/cupsd.conf
+COPY ./config/cups/cupsd.conf /etc/cups/cupsd.conf
+COPY ./config/avahi/*.service /etc/avahi/services/
 
-# back up cups configs in case used does not add their own
-RUN cp -rp /etc/cups /etc/cups-bak
-VOLUME [ "/etc/cups" ]
+RUN chmod 644 /etc/avahi/services/*.service
+RUN chmod 644 /etc/cups/cupsd.conf
 
-COPY entrypoint.sh /
-RUN chmod +x /entrypoint.sh
+# Add scripts
+ADD root /
+RUN chmod +x /*.sh
 
 CMD ["/entrypoint.sh"]
