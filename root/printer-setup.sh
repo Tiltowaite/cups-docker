@@ -26,45 +26,6 @@ cupsaccept CanonMF4320
 lpoptions -p CanonMF4320 -l
 lpoptions -p CanonMF4320
 
-
-# Add Canon MG7700 (Network)
-#if [ -n "$CANON7700" ]; then
-#   lpadmin -p CanonMG7700_ipp \
-#     -E \
-#     -v "ipp://$CANON7700/ipp/print" \
-#     -m canonmg7700.ppd \
-#     -L "Office" \
-#     -D "Canon MG7700 IPP"
-
-# lpadmin -p CanonMG7700_ipp -o media=Letter
-# lpadmin -p CanonMG7700_ipp -o sides=one-sided
-# lpadmin -p CanonMG7700_ipp -o print-color-mode=color
-# lpadmin -p CanonMG7700_ipp -o Resolution=600dpi
-#
-# cupsenable CanonMG7700_ipp
-# cupsaccept CanonMG7700_ipp
-#fi
-
-if [ -n "$CANON7700" ]; then
-  lpadmin -p CanonMG7700_bjnp \
-    -E \
-    -v bjnp://$CANON7700:8611 \
-    -m canonmg7700.ppd \
-    -L "Office" \
-    -D "Canon MG7700"
- lpadmin -p CanonMG7700_bjnp -o media=Letter
- lpadmin -p CanonMG7700_bjnp -o sides=one-sided
- lpadmin -p CanonMG7700_bjnp -o print-color-mode=color
- lpadmin -p CanonMG7700_bjnp -o Resolution=600dpi
- lpadmin -p CanonMG7700_bjnp -o printer-is-shared=true
-
- cupsenable CanonMG7700_bjnp
- cupsaccept CanonMG7700_bjnp
-
- lpoptions -p CanonMG7700_bjnp -l
- lpoptions -p CanonMG7700_bjnp
-fi
-
 lpadmin -p Server_PDF_Print \
   -E \
   -v cups-pdf:/ \

@@ -49,8 +49,6 @@ COPY ./drivers /drivers
 
 RUN dpkg -i /drivers/cnrdrvcups-ufr2-us_6.00-1.02_amd64.deb
 
-RUN dpkg -i /drivers/cnijfilter2_5.20-1_amd64.deb
-
 #RUN pip install --break-system-packages pycups
 
 EXPOSE 631
